@@ -11,10 +11,11 @@ buildscript {
             url "https://artifact.bytedance.com/repository/byteX/"
         }
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        maven { url 'https://repo.grails.org/grails/core' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
@@ -23,9 +24,13 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.novoda:bintray-release:0.8.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.0"
+
+//        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.0"
+        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.5.0'
+
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.3"
         classpath "digital.wup:android-maven-publish:3.6.3"
+
     }
 }
 
@@ -38,7 +43,6 @@ allprojects {
             url "https://artifact.bytedance.com/repository/byteX/"
         }
         google()
-        jcenter()
         mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
