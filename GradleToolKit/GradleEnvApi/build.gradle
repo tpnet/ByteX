@@ -1,12 +1,15 @@
 apply plugin: 'java'
+//apply plugin: 'kotlin'
 group "$upload_group"
 version "$upload_version"
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly gradleApi()
     compileOnly "com.android.tools.build:gradle:$gradle_version"
 }
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
-apply from: rootProject.file('gradle/publish.gradle')
+//apply from: rootProject.file('gradle/publish.gradle')

@@ -3,7 +3,7 @@ package com.ss.android.ugc.bytex.transformer.cache;
 import com.android.build.api.transform.JarInput;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.Status;
-import com.android.utils.FileUtils;
+//import com.android.utils.FileUtils;
 import com.google.common.io.ByteStreams;
 import com.ss.android.ugc.bytex.transformer.TransformContext;
 import com.ss.android.ugc.bytex.transformer.TransformOutputs;
@@ -88,7 +88,8 @@ public class JarCache extends FileCache {
         }
         if (needOutput || dataList.isEmpty()) {
             if (dataList.isEmpty()) {
-                FileUtils.deleteIfExists(outputFile);
+//                FileUtils.deleteIfExists(outputFile);
+                java.nio.file.Files.deleteIfExists(outputFile.toPath());
             }
             dataList.sort((t0, t1) -> t0.getRelativePath().compareTo(t1.getRelativePath()));
             TransformOutputs.Entry mapToEntry = new TransformOutputs.Entry(
@@ -106,7 +107,8 @@ public class JarCache extends FileCache {
                             .flatMap((Function<FileData, Stream<FileData>>) fileData -> fileData.allFiles().stream())
                             .anyMatch(fileData -> fileData.getStatus() == Status.NOTCHANGED)) {
                         //增量构建，如果存在fileData是NOTCHANGED,则需要从原来的outputFile去读取entry
-                        FileUtils.copyFile(outputFile, copyFile);
+//                        FileUtils.copyFile(outputFile, copyFile);
+                        java.nio.file.Files.copy(outputFile.toPath(),copyFile.toPath());
                         jarFile = new JarFile(copyFile);
                     }
                     String reason = "Unknown";
@@ -160,10 +162,12 @@ public class JarCache extends FileCache {
                     if (jarFile != null) {
                         jarFile.close();
                     }
-                    FileUtils.delete(copyFile);
+//                    FileUtils.delete(copyFile);
+                    java.nio.file.Files.delete(copyFile.toPath());
                 }
                 if (!hasOutput.get()) {
-                    FileUtils.deleteIfExists(outputFile);
+//                    FileUtils.deleteIfExists(outputFile);
+                    java.nio.file.Files.delete(copyFile.toPath());
                 }
                 mapToEntry = new TransformOutputs.Entry(
                         mapToEntry.getInput(),
@@ -183,7 +187,8 @@ public class JarCache extends FileCache {
             Set<String> items = context.getTransformInputs().getLastTransformInputs().get(getFile().getAbsolutePath());
             if (status == Status.REMOVED) {
                 if (outputFile != null) {
-                    FileUtils.deleteIfExists(outputFile);
+//                    FileUtils.deleteIfExists(outputFile);
+                    java.nio.file.Files.delete(outputFile.toPath());
                 }
                 if (items == null) {
                     return Collections.emptyList();
@@ -286,7 +291,8 @@ public class JarCache extends FileCache {
     @Override
     public synchronized void skip() throws IOException {
         output();
-        FileUtils.copyFile(getFile(), outputFile);
+//        FileUtils.copyFile(getFile(), outputFile);
+        java.nio.file.Files.copy(getFile().toPath(),outputFile.toPath());
     }
 
     @Override

@@ -3,4 +3,7 @@ dependencies {
     implementation project(':ProguardConfigurationResolver')
     implementation project(':ProguardConfigurationResolver-task')
     implementation project(':ProguardConfigurationResolver-transform')
+
+    implementation 'com.android.tools:repository:26.6.2'
+
 }

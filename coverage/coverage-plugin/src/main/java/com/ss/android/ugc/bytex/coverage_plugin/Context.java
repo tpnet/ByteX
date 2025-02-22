@@ -1,7 +1,6 @@
 package com.ss.android.ugc.bytex.coverage_plugin;
 
 import com.android.build.gradle.AppExtension;
-import com.android.utils.Pair;
 import com.ss.android.ugc.bytex.common.BaseContext;
 import com.ss.android.ugc.bytex.common.utils.Utils;
 import com.ss.android.ugc.bytex.common.white_list.WhiteList;

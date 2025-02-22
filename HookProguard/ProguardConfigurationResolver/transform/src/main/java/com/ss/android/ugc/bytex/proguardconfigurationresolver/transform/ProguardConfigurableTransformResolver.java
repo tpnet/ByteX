@@ -1,7 +1,7 @@
 package com.ss.android.ugc.bytex.proguardconfigurationresolver.transform;
 
 import com.android.build.gradle.internal.pipeline.TransformTask;
-import com.android.build.gradle.internal.transforms.ProguardConfigurable;
+//import com.android.build.gradle.internal.transforms.ProguardConfigurable;
 import com.ss.android.ugc.bytex.proguardconfigurationresolver.ProguardConfigurationResolver;
 
 import org.gradle.api.Project;
@@ -38,14 +38,24 @@ public class ProguardConfigurableTransformResolver extends ProguardConfiguration
     @Override
     public FileCollection getAllConfigurationFiles() {
         Task task = getTask();
-        if (task == null) {
-            return null;
-        }
-        ProguardConfigurable proguardConfigurable = (ProguardConfigurable) ((TransformTask) task).getTransform();
+        if (task == null) return null;
+
+        Object transform = ((TransformTask) task).getTransform();
         try {
-            Method method = ProguardConfigurable.class.getDeclaredMethod("getAllConfigurationFiles");
-            method.setAccessible(true);
-            return (FileCollection) method.invoke(proguardConfigurable);
+            // AGP 7.x+ 反射获取 R8 配置
+            Method getR8Configurable = transform.getClass().getMethod("getR8Configurable");
+            Object r8Configurable = getR8Configurable.invoke(transform);
+
+            Method getFilesMethod = r8Configurable.getClass().getMethod("getProguardFiles");
+            return (FileCollection) getFilesMethod.invoke(r8Configurable);
+        } catch (NoSuchMethodException e) {
+            // AGP <7.0 回退逻辑
+            try {
+                Method getAllConfigMethod = transform.getClass().getMethod("getAllConfigurationFiles");
+                return (FileCollection) getAllConfigMethod.invoke(transform);
+            } catch (Exception ex) {
+                throw new RuntimeException("Failed to get proguard files", ex);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

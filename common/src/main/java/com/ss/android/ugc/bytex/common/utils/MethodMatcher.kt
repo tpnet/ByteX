@@ -92,7 +92,7 @@ open class MethodMatcher(val identity: String) : IMethodMatcher, Comparable<Meth
                     val andIndex = identity.indexOf(Operation.AND.key, start)
                     val orIndex = identity.indexOf(Operation.OR.key, start)
                     val nivIndex = identity.indexOf(Operation.INV.key, start)
-                    val end = listOf(andIndex, orIndex, nivIndex).filter { it >= 0 }.min() ?: -1
+                    val end = listOf(andIndex, orIndex, nivIndex).filter { it >= 0 }.minOrNull() ?: -1
                     if (end < 0) {
                         visitor.visitIdentity(identity.substring(start, simpleEnd))
                         start = simpleEnd
@@ -164,7 +164,7 @@ class InheritMethodMatcher(identity: String, childrenResolver: (String) -> Colle
                             it.indexOf(Operation.OR.key, inheritFlagIndex)
                     ).filter {
                         it >= 0
-                    }.min() ?: it.length
+                    }.minOrNull() ?: it.length
                     replaceHandles.add(it.substring(inheritFlagIndex, start))
                 } else {
                     break

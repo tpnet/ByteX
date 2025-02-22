@@ -21,7 +21,7 @@ class TransformEnvWithTimeoutImpl(project: Project, val timeout: Duration, val r
     }
 
     override fun getArtifact(artifact: Artifact): Collection<File> {
-        val taskTimeout: Timeout = timeoutHandler.start(Thread.currentThread(), timeout)
+        val taskTimeout: Timeout = timeoutHandler.start(Thread.currentThread(), timeout,null,null)
         try {
             return real.getArtifact(artifact)
         } finally {

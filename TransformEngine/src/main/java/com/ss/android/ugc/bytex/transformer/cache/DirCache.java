@@ -3,7 +3,7 @@ package com.ss.android.ugc.bytex.transformer.cache;
 import com.android.build.api.transform.DirectoryInput;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.Status;
-import com.android.utils.FileUtils;
+//import com.android.utils.FileUtils;
 import com.google.common.io.Files;
 import com.ss.android.ugc.bytex.transformer.TransformContext;
 import com.ss.android.ugc.bytex.transformer.TransformOutputs;
@@ -12,6 +12,8 @@ import com.ss.android.ugc.bytex.transformer.io.Files_;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -87,7 +89,8 @@ public class DirCache extends FileCache {
         File target = TransformContext.getOutputTarget(outputFile, fileData.getRelativePath());
         if (fileData.getStatus() == Status.REMOVED) {
             //被移除了
-            FileUtils.deleteIfExists(target);
+//            FileUtils.deleteIfExists(target);
+            java.nio.file.Files.deleteIfExists(target.toPath());
         } else if (fileData.getStatus() != Status.NOTCHANGED) {
             if (fileData.contentLoaded()) {
                 byte[] bytes = fileData.getBytes();
@@ -104,12 +107,21 @@ public class DirCache extends FileCache {
                     }
                 } else {
                     //实际上是等价于被删除了
-                    FileUtils.deleteIfExists(target);
+//                    FileUtils.deleteIfExists(target);
+                    java.nio.file.Files.deleteIfExists(target.toPath());
                 }
             } else {
                 //考虑增量是请求了变更但没有加载，依然算是未改变
                 //直接复制，减少io
-                FileUtils.copyFile(new File(getFile(), fileData.getRelativePath()), target);
+//                FileUtils.copyFile(new File(getFile(), fileData.getRelativePath()), target);
+                Path sourcePath = new File(getFile(), fileData.getRelativePath()).toPath();
+                Path targetPath = target.toPath();
+                try {
+                    java.nio.file.Files.createDirectories(targetPath.getParent()); // 确保目录存在
+                    java.nio.file.Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to copy file: " + sourcePath + " to " + targetPath, e);
+                }
             }
         }
         if (!target.exists()) {
@@ -199,6 +211,14 @@ public class DirCache extends FileCache {
     @Override
     public synchronized void skip() throws IOException {
         output();
-        FileUtils.copyDirectory(getFile(), outputFile);
+//        FileUtils.copyDirectory(getFile(), outputFile);
+        Path sourcePath = getFile().toPath();
+        Path targetPath = outputFile.toPath();
+        try {
+            java.nio.file.Files.createDirectories(targetPath.getParent()); // 确保目录存在
+            java.nio.file.Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to copy file: " + sourcePath + " to " + targetPath, e);
+        }
     }
 }

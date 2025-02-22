@@ -2,19 +2,28 @@ apply plugin: 'java-library'
 apply plugin: 'kotlin'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly gradleApi()
-    compileOnly "com.android.tools.build:gradle:$gradle_version"
-    compile "com.google.guava:guava:$guava_version"
-    compile "org.ow2.asm:asm:$asm_version"
-    compile "org.ow2.asm:asm-tree:$asm_version"
-    compile "org.ow2.asm:asm-util:$asm_version"
-    compile "org.ow2.asm:asm-analysis:$asm_version"
-    compile "org.ow2.asm:asm-commons:$asm_version"
-    compile project(':TransformEngine')
-    compile project(':GradleToolKit')
-    compile "com.google.code.gson:gson:2.8.2"
-    compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
-    compile("com.bytedance.android.build:gradle-compat-api:$gradle_compat_version")
+    implementation gradleApi()
+    api "com.android.tools.build:gradle:$gradle_version"
+    implementation "com.google.guava:guava:$guava_version"
+    implementation "org.ow2.asm:asm:$asm_version"
+    implementation "org.ow2.asm:asm-tree:$asm_version"
+    implementation "org.ow2.asm:asm-util:$asm_version"
+    implementation "org.ow2.asm:asm-analysis:$asm_version"
+    implementation "org.ow2.asm:asm-commons:$asm_version"
+    api project(':TransformEngine')
+    api project(':GradleToolKit')
+    api project(':PluginConfigAnnotation')
+    implementation "com.google.code.gson:gson:2.8.2"
+    implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    api("com.bytedance.android.build:gradle-compat-api:$gradle_compat_version")
+
+    implementation project(':GradleEnvApi')
+    implementation 'com.android.tools:common:26.6.2'
+    implementation 'com.android.tools:annotations:26.6.2'
+    implementation 'com.android.tools:repository:26.6.2'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+
 }
 
 sourceCompatibility = "1.8"

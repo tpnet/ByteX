@@ -4,7 +4,7 @@
 ## Principle
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A constant field is a field that does not change during runtime，and whose value is permanently fixed after assignment (Eliminates reflections and modify jvm memory modification).There are two types of constants:
 
- - **compile-time constant**:Constants whose value can be determined at compile time, or fields that contain the ConstantValues in the bytecode. 
+ - **compile-time constant**:Constants whose value can be determined at implementation time, or fields that contain the ConstantValues in the bytecode. 
 
 	>For example:public static final String TAG = “MainActivity”; 
 - **Run-time constant**: A constant that needs to be initialized at run time to determine the value. A special point about this constant relative to the compile-time constant is that it is assigned to the PUTSTATIC instruction.

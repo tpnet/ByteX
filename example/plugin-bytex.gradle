@@ -10,7 +10,7 @@ buildscript {
             url "https://artifact.bytedance.com/repository/byteX/"
         }
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
