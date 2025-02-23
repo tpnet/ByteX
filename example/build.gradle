@@ -19,6 +19,7 @@ buildscript {
     }
     dependencies {
         classpath "com.bytedance.android.byteX:base-plugin:${plugin_version}"
+
         classpath "com.bytedance.android.byteX:access-inline-plugin:${plugin_version}"
         classpath "com.bytedance.android.byteX:shrink-r-plugin:${plugin_version}"
         classpath "com.bytedance.android.byteX:refer-check-plugin:${plugin_version}"
