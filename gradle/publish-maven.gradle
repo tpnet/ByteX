@@ -52,51 +52,62 @@ def uploadPassword = useSnapshot == 'true' ?
 def uploadDir = properties.getProperty("UPLOADDIR") == null ? "$upload_dir" : properties.getProperty("UPLOADDIR")
 
 apply plugin: 'org.jetbrains.dokka'
-dokka {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/javadoc"
+//dokka {
+//    outputFormat = 'javadoc'
+//    outputDirectory = "$buildDir/javadoc"
+//}
+dokkaHtml {
+    outputDirectory = file("$buildDir/javadoc")
 }
-afterEvaluate { project ->
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                pom.groupId = pomGroupId
-                pom.artifactId = pomArtifactId
-                pom.version = pomVersion
+afterEvaluate { project ->
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                if (project.getPlugins().hasPlugin('com.android.application') ||
+                        project.getPlugins().hasPlugin('com.android.library')) {
+                    // For Android projects, use the appropriate component
+                    from components.release
+                } else {
+                    // For Java projects, use the java component
+                    from components.java
+                }
+                groupId = pomGroupId
+                artifactId = pomArtifactId
+                version = pomVersion
+
                 if (upload == 'true') {
-                    repository(url: uri(mavenUrl)) {
-                        authentication(userName: uploadUserName, password: uploadPassword)
+                    repositories {
+                        maven {
+                            url = uri(mavenUrl)
+                            credentials {
+                                username = uploadUserName
+                                password = uploadPassword
+                            }
+                        }
                     }
                 } else {
-                    //文件发布到下面目录
-                    repository(url: uri(uploadDir))
+                    repositories {
+                        maven {
+                            url = uri(uploadDir)
+                        }
+                    }
                 }
             }
         }
     }
 
     signing {
-        required { gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
+        required { gradle.taskGraph.hasTask("publish") }
+        sign publishing.publications.mavenJava
     }
 
     if (project.getPlugins().hasPlugin('com.android.application') ||
             project.getPlugins().hasPlugin('com.android.library')) {
-        task install(type: Upload, dependsOn: assemble) {
-            repositories.mavenInstaller {
-                configuration = configurations.archives
-
-                pom.groupId = pomGroupId
-                pom.artifactId = pomArtifactId
-                pom.version = pomVersion
-            }
-        }
-        task androidJavadocJar(type: Jar, dependsOn: dokka) {
+        task androidJavadocJar(type: Jar, dependsOn: tasks.dokkaHtml) {
             group = 'jar'
             classifier = 'javadoc'
-            from "$buildDir/javadoc"
+            from file("$buildDir/javadoc")
         }
         task androidSourcesJar(type: Jar) {
             group = 'jar'
@@ -104,18 +115,10 @@ afterEvaluate { project ->
             classifier = 'sources'
         }
     } else {
-        install {
-            repositories.mavenInstaller {
-                pom.groupId = pomGroupId
-                pom.artifactId = pomArtifactId
-                pom.version = pomVersion
-            }
-        }
-
-        task javadocJar(type: Jar, dependsOn: dokka) {
+        task javadocJar(type: Jar, dependsOn: tasks.dokkaHtml) {
             group = 'jar'
             classifier = 'javadoc'
-            from "$buildDir/javadoc"
+            from file("$buildDir/javadoc")
         }
         task sourcesJar(type: Jar, dependsOn: classes) {
             classifier = 'sources'
@@ -134,11 +137,96 @@ afterEvaluate { project ->
     artifacts {
         if (project.getPlugins().hasPlugin('com.android.application') ||
                 project.getPlugins().hasPlugin('com.android.library')) {
-            //archives androidJavadocJar
             archives androidSourcesJar
         } else {
-            //archives javadocJar
             archives sourcesJar
         }
     }
 }
+//
+//afterEvaluate { project ->
+//    uploadArchives {
+//        repositories {
+//            mavenDeployer {
+//                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//
+//                pom.groupId = pomGroupId
+//                pom.artifactId = pomArtifactId
+//                pom.version = pomVersion
+//                if (upload == 'true') {
+//                    repository(url: uri(mavenUrl)) {
+//                        authentication(userName: uploadUserName, password: uploadPassword)
+//                    }
+//                } else {
+//                    //文件发布到下面目录
+//                    repository(url: uri(uploadDir))
+//                }
+//            }
+//        }
+//    }
+//
+//    signing {
+//        required { gradle.taskGraph.hasTask("uploadArchives") }
+//        sign configurations.archives
+//    }
+//
+//    if (project.getPlugins().hasPlugin('com.android.application') ||
+//            project.getPlugins().hasPlugin('com.android.library')) {
+//        task install(type: Upload, dependsOn: assemble) {
+//            repositories.mavenInstaller {
+//                configuration = configurations.archives
+//
+//                pom.groupId = pomGroupId
+//                pom.artifactId = pomArtifactId
+//                pom.version = pomVersion
+//            }
+//        }
+//        task androidJavadocJar(type: Jar, dependsOn: dokka) {
+//            group = 'jar'
+//            classifier = 'javadoc'
+//            from "$buildDir/javadoc"
+//        }
+//        task androidSourcesJar(type: Jar) {
+//            group = 'jar'
+//            from android.sourceSets.main.java.srcDirs
+//            classifier = 'sources'
+//        }
+//    } else {
+//        install {
+//            repositories.mavenInstaller {
+//                pom.groupId = pomGroupId
+//                pom.artifactId = pomArtifactId
+//                pom.version = pomVersion
+//            }
+//        }
+//
+//        task javadocJar(type: Jar, dependsOn: dokka) {
+//            group = 'jar'
+//            classifier = 'javadoc'
+//            from "$buildDir/javadoc"
+//        }
+//        task sourcesJar(type: Jar, dependsOn: classes) {
+//            classifier = 'sources'
+//            from sourceSets.main.allSource
+//        }
+//    }
+//
+//    if (JavaVersion.current().isJava8Compatible()) {
+//        allprojects {
+//            tasks.withType(Javadoc) {
+//                options.addStringOption('Xdoclint:none', '-quiet')
+//            }
+//        }
+//    }
+//
+//    artifacts {
+//        if (project.getPlugins().hasPlugin('com.android.application') ||
+//                project.getPlugins().hasPlugin('com.android.library')) {
+//            //archives androidJavadocJar
+//            archives androidSourcesJar
+//        } else {
+//            //archives javadocJar
+//            archives sourcesJar
+//        }
+//    }
+//}

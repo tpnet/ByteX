@@ -20,19 +20,19 @@ buildscript {
     dependencies {
         classpath "com.bytedance.android.byteX:base-plugin:${plugin_version}"
 
-        classpath "com.bytedance.android.byteX:access-inline-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:shrink-r-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:refer-check-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:getter-setter-inline-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:const-inline-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:field-assign-opt-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:closeable-check-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:access-inline-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:shrink-r-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:refer-check-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:getter-setter-inline-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:const-inline-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:field-assign-opt-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:closeable-check-plugin:${plugin_version}"
         classpath "com.bytedance.android.byteX:method-call-opt-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:serialization-check-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:SourceFileKiller:${plugin_version}"
-        classpath "com.bytedance.android.byteX:coverage-lib:${plugin_version}"
-        classpath "com.bytedance.android.byteX:coverage-plugin:${plugin_version}"
-        classpath "com.bytedance.android.byteX:butterknife-check-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:serialization-check-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:SourceFileKiller:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:coverage-lib:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:coverage-plugin:${plugin_version}"
+//        classpath "com.bytedance.android.byteX:butterknife-check-plugin:${plugin_version}"
     }
 }
 
