@@ -10,4 +10,4 @@ sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 group "$upload_group"
 version "$upload_version"
-//apply from: rootProject.file('gradle/publish.gradle')
+apply from: rootProject.file('gradle/publish.gradle')
