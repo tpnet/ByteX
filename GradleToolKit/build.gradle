@@ -5,7 +5,6 @@ apply plugin: 'kotlin-kapt'
 group "$upload_group"
 version "$upload_version"
 dependencies {
-    kapt 'com.google.auto.service:auto-service:1.0-rc4'
     compileOnly gradleApi()
     compileOnly "com.android.tools.build:gradle:$gradle_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -14,15 +13,14 @@ dependencies {
     implementation("com.bytedance.android.build:gradle-compat-api:$gradle_compat_version")
     runtimeOnly("com.bytedance.android.build:gradle-compat-impl:$gradle_compat_version")
 
-    implementation('com.google.auto.service:auto-service:1.0-rc4') {
+//    implementation('com.google.auto.service:auto-service:1.0-rc4') {
+//    kapt 'com.google.auto.service:auto-service:1.0-rc4'
+    kapt 'com.google.auto.service:auto-service:1.1.1'
+    implementation('com.google.auto.service:auto-service:1.1.1') {
         exclude module: 'guava'
     }
 }
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs += "-Xextended-compiler-checks"
-}
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 apply from: rootProject.file('gradle/publish.gradle')

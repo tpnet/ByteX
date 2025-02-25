@@ -3,7 +3,7 @@ apply plugin: 'kotlin'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation gradleApi()
-    api "com.android.tools.build:gradle:$gradle_version"
+    implementation "com.android.tools.build:gradle:$gradle_version"
     implementation "com.google.guava:guava:$guava_version"
     implementation "org.ow2.asm:asm:$asm_version"
     implementation "org.ow2.asm:asm-tree:$asm_version"
@@ -13,19 +13,19 @@ dependencies {
     api project(':TransformEngine')
     api project(':GradleToolKit')
     api project(':PluginConfigAnnotation')
-    implementation "com.google.code.gson:gson:2.8.2"
+    implementation "com.google.code.gson:gson:2.9.0"
     implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
-    api("com.bytedance.android.build:gradle-compat-api:$gradle_compat_version")
+    implementation("com.bytedance.android.build:gradle-compat-api:$gradle_compat_version")
 
     implementation project(':GradleEnvApi')
-    implementation 'com.android.tools:common:26.6.2'
-    implementation 'com.android.tools:annotations:26.6.2'
-    implementation 'com.android.tools:repository:26.6.2'
+    implementation 'com.android.tools:common:30.3.0'
+    implementation 'com.android.tools:annotations:30.3.0'
+    implementation 'com.android.tools:repository:30.3.0'
     implementation 'commons-io:commons-io:2.4'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
 
 }
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 apply from: rootProject.file('gradle/publish.gradle')

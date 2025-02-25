@@ -36,7 +36,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
-import static com.android.builder.model.AndroidProject.FD_OUTPUTS;
+//import static com.android.builder.model.AndroidProject.FD_OUTPUTS;
 
 public class TransformContext implements GradleEnv, ClassFinder {
     private TransformInvocation invocation;
@@ -261,7 +261,7 @@ public class TransformContext implements GradleEnv, ClassFinder {
         BaseVariant variant = TransformInvocationKt.getVariant(invocation);
         return new File(Joiner.on(File.separatorChar).join(
                 String.valueOf(project.getBuildDir()),
-                FD_OUTPUTS,
+                "outputs",
                 "mapping",
                 variant.getFlavorName(),
                 variant.getBuildType().getName(),

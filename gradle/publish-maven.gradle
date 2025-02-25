@@ -3,6 +3,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 group "$upload_group"
 version "$upload_version"
+//version "0.3.1"
 
 def propertiesFile = project.file("gradle.properties")
 if (!propertiesFile.exists()) {
@@ -36,7 +37,8 @@ if (properties.getProperty("ARTIFACT_GROUP") == null) {
 def pomGroupId = properties.getProperty("ARTIFACT_GROUP") == null ? "$upload_group" : properties.getProperty("ARTIFACT_GROUP")
 def pomArtifactId = properties.getProperty("ARTIFACT_NAME") == null ? "$project.name" : properties.getProperty("ARTIFACT_NAME")
 //此处特别写成upload_version，因为ARTIFACT_NAME是个ByteBus用的，ARTIFACT_GROUP和ARTIFACT_NAME共用
-def pomVersion = properties.getProperty("upload_version") == null ? "$upload_version" : properties.getProperty("upload_version")
+//def pomVersion = properties.getProperty("upload_version") == null ? "$upload_version" : properties.getProperty("upload_version")
+def pomVersion = "0.3.1"
 def upload = properties.getProperty("UPLOAD2MAVEN") == null ? "$upload2Maven" : properties.getProperty("UPLOAD2MAVEN")
 def useSnapshot = properties.getProperty("USESNAPSHOT") == null ? "$useSnapshot" : properties.getProperty("USESNAPSHOT")
 def mavenUrl = useSnapshot == 'true' ?

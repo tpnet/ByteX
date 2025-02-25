@@ -7,18 +7,17 @@ version "$upload_version"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation gradleApi()
-    api "com.android.tools.build:gradle:$gradle_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api project(':common')
+    implementation "com.android.tools.build:gradle:$gradle_version"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation project(':common')
     implementation project(':PluginConfigProcessor')
     kapt project(':PluginConfigProcessor')
 
-    implementation 'com.android.tools:common:26.6.2'
-    
-        implementation "org.ow2.asm:asm-tree:$asm_version"
-
+    implementation 'com.android.tools:common:30.3.0'
+    implementation "org.ow2.asm:asm-tree:$asm_version"
 }
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 apply from: rootProject.file('gradle/publish.gradle')

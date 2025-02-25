@@ -9,6 +9,7 @@ import java.io.File
  * Created by yangzhiqian on 2020-10-30.
  */
 class TransformEnvWithNoLenientMutationImpl(val real: TransformEnv) : TransformEnv by real {
+
     val value: ThreadLocal<Boolean>? = try {
         val clazz = Class.forName("org.gradle.api.internal.project.DefaultProjectStateRegistry")
         val field = clazz.getDeclaredField("LENIENT_MUTATION_STATE")

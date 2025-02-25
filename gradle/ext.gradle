@@ -34,9 +34,9 @@ ext {
     upload_group = 'com.bytedance.android.byteX'
     upload_version = "0.3.0${(useSnapshotMaven.toBoolean() ? "-${doSh("git config user.name")}-SNAPSHOT" : "")}"
     upload_dir = project.rootProject.file('gradle_plugins').path
-    gradle_version = '7.1.3'
+    gradle_version = '7.3.0'
     gson_version = '2.8.2'
-    asm_version = '9.6'
+    asm_version = '9.1'
     guava_version = '31.1-jre'
     ByteX_Version = upload_version
     gradle_compat_version = "1.1.1.3"

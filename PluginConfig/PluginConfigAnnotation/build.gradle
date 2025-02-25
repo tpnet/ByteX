@@ -3,8 +3,8 @@ apply plugin: 'java'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 group "$upload_group"
 version "$upload_version"
 apply from: rootProject.file('gradle/publish.gradle')

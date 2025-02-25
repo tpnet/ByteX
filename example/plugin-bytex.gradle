@@ -21,7 +21,7 @@ buildscript {
 }
 
 def pluginEnable = true
-def pluginEnableInDebug = true
+def pluginEnableInDebug = false
 def pluginLogLevel = "DEBUG"
 
 apply plugin: 'bytex'

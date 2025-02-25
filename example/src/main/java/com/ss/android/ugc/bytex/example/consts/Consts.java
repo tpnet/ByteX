@@ -1,6 +1,7 @@
 package com.ss.android.ugc.bytex.example.consts;
 
-import android.support.annotation.Keep;
+
+import androidx.annotation.Keep;
 
 import com.google.gson.annotations.SerializedName;
 

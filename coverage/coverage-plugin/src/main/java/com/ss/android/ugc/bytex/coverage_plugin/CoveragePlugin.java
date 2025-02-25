@@ -27,7 +27,7 @@ import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
-import static com.android.builder.model.AndroidProject.FD_OUTPUTS;
+//import static com.android.builder.model.AndroidProject.FD_OUTPUTS;
 
 /**
  * Created by jiangzilai on 2019-07-15.
@@ -60,7 +60,7 @@ public class CoveragePlugin extends CommonPlugin<CoverageExtension, Context> {
         BaseVariant variant = context.getTransformContext().getVariant();
         File mappingFile = new File(Joiner.on(File.separatorChar).join(
                 String.valueOf(project.getBuildDir()),
-                FD_OUTPUTS,
+                "outputs",
                 "mapping",
                 variant.getFlavorName(),
                 variant.getBuildType().getName(),

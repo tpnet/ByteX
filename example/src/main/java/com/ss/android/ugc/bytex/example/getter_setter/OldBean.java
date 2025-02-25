@@ -1,6 +1,7 @@
 package com.ss.android.ugc.bytex.example.getter_setter;
 
-import android.support.annotation.Keep;
+
+import androidx.annotation.Keep;
 
 public class OldBean extends Bean {
     private String name;
